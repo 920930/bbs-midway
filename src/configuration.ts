@@ -8,6 +8,8 @@ import { DefaultErrorFilter } from './filter/default.filter';
 import { ReportMiddleware } from './middleware/report.middleware';
 import * as crossDomain from '@midwayjs/cross-domain';
 import * as captcha from '@midwayjs/captcha';
+import * as jwt from '@midwayjs/jwt';
+import * as typegoose from '@midwayjs/typegoose';
 
 @Configuration({
   imports: [
@@ -19,6 +21,8 @@ import * as captcha from '@midwayjs/captcha';
     },
     crossDomain,
     captcha,
+    jwt,
+    typegoose,
   ],
   importConfigs: [join(__dirname, './config')],
 })
