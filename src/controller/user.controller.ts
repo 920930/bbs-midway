@@ -2,7 +2,7 @@ import { Inject, Controller, Post, Body } from '@midwayjs/decorator';
 import { Context } from '@midwayjs/koa';
 import { UserService } from '../service/user.service';
 import { CaptchaService } from '@midwayjs/captcha';
-// import { HttpError } from '../error/http.error';
+import { HttpError } from '../error/http.error';
 
 @Controller('/api')
 export class APIController {
@@ -23,6 +23,8 @@ export class APIController {
 
   @Post('/register')
   async register(@Body() info){
+    const passed: boolean = await this.captchaService.check(info.id, info.captcha);
+    if(!passed) throw new HttpError('验证码错误或过期')
     await this.userService.register(info);
   }
 }

@@ -22,7 +22,5 @@ export class UserService {
 
   async register (info: any) {
     console.log(info)
-    const passed: boolean = await this.captchaService.check(info.id, info.captcha);
-    console.log(passed)
   }
 }
