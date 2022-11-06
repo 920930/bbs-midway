@@ -9,14 +9,7 @@ export default {
   },
   jwt: {
     secret: 'c5fdc752-dcbf-40b3-a9df-1339b5d2a143',
-    expiresIn: '2d',
-  },
-  captcha: {
-    expirationTime: 60 * 5,
-    image: {
-      noise: 5,
-      size: 5
-    }
+    expiresIn: '2h',
   },
   mongoose: {
     dataSource: {
@@ -31,6 +24,13 @@ export default {
         // 关联实体
         entities: [ User ]
       }
+    }
+  },
+  captcha: {
+    expirationTime: 3600,
+    image: {
+      noise: 5,
+      size: 5
     }
   },
 } as MidwayConfig;

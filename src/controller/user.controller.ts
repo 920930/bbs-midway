@@ -16,15 +16,19 @@ export class APIController {
   captchaService: CaptchaService;
 
   @Post('/login')
-  async login(@Body() info: { email: string; password: string}) {
+  async login(@Body() info: { email: string; password: string; id: string; captcha: string}) {
+    const passed: boolean = await this.captchaService.check(info.id, info.captcha);
+    if(!passed) throw new HttpError('验证码错误或过期')
     const user = await this.userService.login(info);
     return user;
   }
 
   @Post('/register')
   async register(@Body() info){
+    if(info.password !== info.pwd) throw new HttpError('两次密码不一致')
     const passed: boolean = await this.captchaService.check(info.id, info.captcha);
     if(!passed) throw new HttpError('验证码错误或过期')
-    await this.userService.register(info);
+    const token = await this.userService.register(info);
+    return token;
   }
 }
