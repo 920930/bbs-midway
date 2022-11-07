@@ -10,6 +10,7 @@ import * as crossDomain from '@midwayjs/cross-domain';
 import * as captcha from '@midwayjs/captcha';
 import * as jwt from '@midwayjs/jwt';
 import * as typegoose from '@midwayjs/typegoose';
+import * as staticFile from '@midwayjs/static-file';
 
 @Configuration({
   imports: [
@@ -23,6 +24,7 @@ import * as typegoose from '@midwayjs/typegoose';
     captcha,
     jwt,
     typegoose,
+    staticFile,
   ],
   importConfigs: [join(__dirname, './config')],
 })

@@ -7,6 +7,7 @@ export default {
   koa: {
     port: 7001,
   },
+  host: 'http://127.0.0.1:7001',
   jwt: {
     secret: 'c5fdc752-dcbf-40b3-a9df-1339b5d2a143',
     expiresIn: '2h',
@@ -19,18 +20,25 @@ export default {
           useNewUrlParser: true,
           useUnifiedTopology: true,
           user: '',
-          pass: ''
+          pass: '',
         },
         // 关联实体
-        entities: [ User ]
-      }
-    }
+        entities: [User],
+      },
+    },
   },
   captcha: {
     expirationTime: 3600,
     image: {
       noise: 5,
-      size: 5
-    }
+      size: 5,
+    },
+  },
+  staticFile: {
+    dirs: {
+      default: {
+        prefix: '/',
+      },
+    },
   },
 } as MidwayConfig;
