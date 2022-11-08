@@ -12,7 +12,7 @@ export class APIController {
   captchaService: CaptchaService;
 
   @Get('/captcha')
-  async getCaptcha(){
+  async getCaptcha() {
     const { id, imageBase64 } = await this.captchaService.image();
     return {
       id,

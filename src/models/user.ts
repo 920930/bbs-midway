@@ -28,6 +28,7 @@ export class User {
   public name: string;
   @prop({
     set: (val: string) => md5(val),
+    select: false,
   })
   public password: string;
   @prop({

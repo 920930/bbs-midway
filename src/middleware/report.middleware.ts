@@ -22,7 +22,7 @@ export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
         status: 200,
         data,
         success: true,
-        message: 'OK'
+        message: 'OK',
       };
     };
   }

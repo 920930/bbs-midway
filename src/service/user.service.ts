@@ -5,6 +5,7 @@ import { InjectEntityModel } from '@midwayjs/typegoose';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { HttpError } from '../error/http.error';
 import { User } from '../models/user';
+import { md5 } from '../utils';
 // import { IUserOptions } from '../interface';
 
 @Provide()
@@ -19,12 +20,23 @@ export class UserService {
   userModel: ReturnModelType<typeof User>;
   
   async login(options: { email: string; password: string}) {
+    const userOne = await this.userModel.findOne({email: options.email}).select('+password');
+    console.log(userOne.toJSON())
+    if(!userOne) throw new HttpError('用户不存在')
+    if(userOne.password !== md5(options.password)) throw new HttpError('密码错误')
+    const token = this.jwtService.signSync(
+      {id: userOne._id, email: userOne.email, avatar: userOne.avatar},
+      this.app.getConfig('jwt.secret'),
+      { expiresIn: this.app.getConfig('jwt.expiresIn'), algorithm: 'HS512' }
+    )
     return {
-      uid: options.email,
-      username: 'mockedName',
-      phone: '12345678901',
-      email: 'xxx.xxx@xxx.com',
-    };
+      token: 'Bearer ' + token,
+      user: {
+        _id: userOne._id,
+        name: userOne.name,
+        avatar: userOne.avatar
+      }
+    }
   }
 
   async register (info: { email: string; password: string; name: string}) {
@@ -36,10 +48,17 @@ export class UserService {
       password: info.password
     })
     const token = this.jwtService.signSync(
-      {id: user._id, email: user.email},
+      {id: user._id, email: user.email, avatar: user.avatar},
       this.app.getConfig('jwt.secret'),
       { expiresIn: this.app.getConfig('jwt.expiresIn'), algorithm: 'HS512' }
     )
-    return 'Bearer ' + token;
+    return {
+      token: 'Bearer ' + token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        avatar: user.avatar
+      }
+    }
   }
 }
