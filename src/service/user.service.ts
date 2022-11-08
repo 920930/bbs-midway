@@ -3,10 +3,10 @@ import { Application } from '@midwayjs/koa';
 import { JwtService } from '@midwayjs/jwt';
 import { InjectEntityModel } from '@midwayjs/typegoose';
 import { ReturnModelType } from '@typegoose/typegoose';
+import { CacheManager } from '@midwayjs/cache';
 import { HttpError } from '../error/http.error';
 import { User } from '../models/user';
 import { md5 } from '../utils';
-// import { IUserOptions } from '../interface';
 
 @Provide()
 export class UserService {
@@ -15,6 +15,9 @@ export class UserService {
 
   @Inject()
   jwtService: JwtService;
+
+  @Inject()
+  cacheManager: CacheManager;
 
   @InjectEntityModel(User)
   userModel: ReturnModelType<typeof User>;
@@ -29,6 +32,7 @@ export class UserService {
       this.app.getConfig('jwt.secret'),
       { expiresIn: this.app.getConfig('jwt.expiresIn'), algorithm: 'HS512' }
     )
+    this.cacheManager.set(userOne._id, {_id: userOne._id, name: userOne.name, avatar: userOne.avatar});
     return {
       token: 'Bearer ' + token,
       user: {
@@ -52,6 +56,7 @@ export class UserService {
       this.app.getConfig('jwt.secret'),
       { expiresIn: this.app.getConfig('jwt.expiresIn'), algorithm: 'HS512' }
     )
+    this.cacheManager.set(user._id, {_id: user._id, name: user.name, avatar: user.avatar});
     return {
       token: 'Bearer ' + token,
       user: {

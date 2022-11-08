@@ -8,6 +8,7 @@ import * as captcha from '@midwayjs/captcha';
 import * as jwt from '@midwayjs/jwt';
 import * as typegoose from '@midwayjs/typegoose';
 import * as staticFile from '@midwayjs/static-file';
+import * as cache from '@midwayjs/cache';
 import { DefaultErrorFilter } from './filter/default.filter';
 // import { NotFoundFilter } from './filter/notfound.filter';
 import { ReportMiddleware } from './middleware/report.middleware';
@@ -26,6 +27,7 @@ import { JwtMiddleware } from './middleware/jwt.middleware';
     jwt,
     typegoose,
     staticFile,
+    cache,
   ],
   importConfigs: [join(__dirname, './config')],
 })

@@ -27,6 +27,12 @@ export default {
       },
     },
   },
+  cache: {
+    store: 'memory',
+    options: {
+      ttl: 60 * 60, // 默认秒
+    },
+  },
   captcha: {
     expirationTime: 3600,
     image: {
