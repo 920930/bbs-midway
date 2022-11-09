@@ -34,10 +34,10 @@ export default {
     },
   },
   captcha: {
-    expirationTime: 3600,
+    expirationTime: 60 * 5,
     image: {
-      noise: 5,
-      size: 5,
+      noise: Math.floor(Math.random() * 4),
+      size: 4,
     },
   },
   staticFile: {

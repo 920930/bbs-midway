@@ -47,6 +47,15 @@ export class APIController {
     return token;
   }
 
+  @Get('/captcha')
+  async captcha() {
+    const { id, imageBase64 } = await this.captchaService.image();
+    return {
+      id,
+      img: imageBase64,
+    };
+  }
+
   @Get('/user')
   async user() {
     console.log(this.ctx);
